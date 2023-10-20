@@ -1,2 +1,3 @@
-model, type, speed, range, price
-b15
+type, model, speed, range, price
+bomber,b15, 45, 4858, 10000000
+fighter, f16, 100, 2344, 100030040
