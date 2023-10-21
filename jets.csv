@@ -1,3 +1,4 @@
 type, model, speed, range, price
 bomber,b15, 45, 4858, 10000000
 fighter, f16, 100, 2344, 100030040
+cargo, ac130, 40, 4399, 2939493
