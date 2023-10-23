@@ -1,7 +1,11 @@
 package com.skilldistillery.jets.app;
+
 import static com.skilldistillery.jets.app.Util.*;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,24 +31,35 @@ public class JetApp {
 	}
 
 	protected void launch() {
-		if (readJetCSV()) {
-			userMenuLoop();
+		boolean safeToLoad = false;
+		String userFile;
+		while (!safeToLoad) {
+			printBlue("Type in the name of the file you would like to load.\n" + "Enter 1 for default load file.\n"
+					+ "enter 0 to quit.\n");
+			userFile = input.nextLine();
+			if (userFile.equals("1")) {
+				userFile = "default.csv";
+			} else if (userFile.equals("0")) {
+				break;
+			}
+			if (safeToLoad = readJetCSV(userFile)) {
+				userMenuLoop();
+			}
 		}
+		printGreen("Exiting program.");
 	}
 
 	protected void displayUserMenu() {
 		String menu = "JetApp Options:\n" + "1. List fleet\n" + "2. Fly all jets\n" + "3. View fastest jet\n"
 				+ "4. View jet with longest range\n" + "5. Load all Cargo Jets\n" + "6. Dogfight!\n"
 				+ "7. Add a jet to Fleet\n" + "8. Remove a jet from Fleet\n" + "9. Fly a jet in Fleet\n"
-				+ "10. Hire a pilot for a Jet\n" + "11. Save current state\n" + "0. Quit";
+				+ "10. Hire a pilot for a Jet\n" + "11. Save current state\n" + "0. Quit\n";
 		printBlue(menu);
 	}
 
 	protected void userMenuLoop() {
 		int userSelection;
-		boolean running = true;
-
-		while (running) {
+		while (true) {
 			try {
 				displayUserMenu();
 				userSelection = Integer.parseInt(input.nextLine());
@@ -86,8 +101,7 @@ public class JetApp {
 					saveStateMenu();
 					break;
 				case 0:
-					printGreen("Exiting program.");
-					break;
+					return;
 				default:
 					printRed("Invalid Selection");
 				}
@@ -191,29 +205,39 @@ public class JetApp {
 	protected Jet createJet(String type, String model, double speed, int range, long price) {
 		switch (type) {
 		case "fighter":
+		case "fighterjet":
 			return new FighterJet(model, speed, range, price);
 		case "bomber":
+		case "bomberjet":
 			return new BomberJet(model, speed, range, price);
 		case "cargo":
+		case "cargojet":
 			return new CargoJet(model, speed, range, price);
 		case "passenger":
+		case "passengerjet":
 			return new PassengerJet(model, speed, range, price);
 		default:
 			return null;
 		}
 	}
 
-	protected boolean readJetCSV() {
+	protected boolean readJetCSV(String filename) {
 		try {
-			List<String> lines = Files.readAllLines(Paths.get("jets.csv"));
+			List<String> lines = Files.readAllLines(Paths.get(filename));
+			lines.remove(0);
 			for (String line : lines) {
-				airField.addJet(parseJet(line));	
+				airField.addJet(parseJet(line));
 			}
 			return true;
+
+		} catch (FileNotFoundException e) {
+			printRed("file " + filename + " not found.");
+		} catch (NoSuchFileException e) {
+			printRed("file " + filename + " not found.");
 		} catch (IOException e) {
 			printRed("A fatal IO error has occurred: " + e.getMessage());
 		} catch (IllegalArgumentException e) {
-			printRed("Error in parsing 'jets.csv', is the data correct?\n" + e.getMessage());
+			printRed("Error in parsing '" + filename + "', is the data correct?\n" + e.getMessage());
 		}
 		return false;
 	}
@@ -232,12 +256,12 @@ public class JetApp {
 		}
 		List<String> lines = airField.getStateAsCSV();
 		try {
-            Files.createFile(Paths.get(filename)); // Create the file
-            Files.write(Paths.get(filename), lines); // Write to the file
-        } catch (IOException e) {
-            printRed("A fatal error occured.");
-        }
-		
+			Files.createFile(Paths.get(filename)); // Create the file
+			Files.write(Paths.get(filename), lines); // Write to the file
+		} catch (IOException e) {
+			printRed("A fatal error occured.");
+		}
+
 	}
 
 	protected Jet parseJet(String line) throws IllegalArgumentException {
