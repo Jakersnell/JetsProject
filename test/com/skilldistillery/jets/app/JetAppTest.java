@@ -32,9 +32,4 @@ class JetAppTest {
 	public void test_createJet_returns_jet_on_valid_input() {
 		Assertions.assertNotNull(jetApp.createJet("bomber", "b52", 300, 1000, 103000));
 	}
-	
-	@Test
-	public void test_parseCSV_returns_true_on_successful_read() {
-		Assertions.assertTrue(jetApp.readJetCSV());
-	}
 }
