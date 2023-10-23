@@ -1,32 +1,51 @@
 package com.skilldistillery.jets.entities;
-
 import java.util.Objects;
-
+import static com.skilldistillery.jets.app.Util.printGreen;
 public abstract class Jet {
 	private String model;
 	private double maxMachSpeed;
 	private int rangeInKm;
 	private long price;
 	private Pilot pilot;
-	
-	public Jet(String model, double maxMachSpeed, int rangeInKm, long price, Pilot pilot) {
-
-		this.model = model;
-		this.maxMachSpeed = maxMachSpeed;
-		this.rangeInKm = rangeInKm;
-		this.price = price;
-		this.pilot = pilot;
-	}
 
 	public Jet(String model, double maxMachSpeed, int rangeInKm, long price) {
 		this.model = model;
 		this.maxMachSpeed = maxMachSpeed;
 		this.rangeInKm = rangeInKm;
 		this.price = price;
+		assignRandomPilot();
 	}
-	
+
 	abstract void fly();
-	abstract void displaySelf();
+
+	public void assignRandomPilot() {
+		pilot = new Pilot();
+	}
+
+	public String getDisplayAsSelf() {
+		String display;
+		if (this instanceof CargoJet) {
+			display = ((CargoJet) this).toString();
+		}
+		if (this instanceof FighterJet) {
+			display = ((FighterJet) this).toString();
+		} else if (this instanceof PassengerJet) {
+			display = ((PassengerJet) this).toString();
+		} else if (this instanceof BomberJet) {
+			display = ((BomberJet) this).toString();
+		} else {
+			display = toString();
+		}
+		return display;
+	}
+
+	public Pilot getPilot() {
+		return pilot;
+	}
+
+	public void setPilot(Pilot pilot) {
+		this.pilot = pilot;
+	}
 
 	public String getModel() {
 		return model;
@@ -80,15 +99,19 @@ public abstract class Jet {
 
 	@Override
 	public String toString() {
-		return "Jet [model=" + model + ", maxMachSpeed=" + maxMachSpeed + ", rangeInKm=" + rangeInKm + ", price="
-				+ price + "]";
+		return getClass().getSimpleName() + " [ model: " + model + ", max mach speed: " + maxMachSpeed + ", max range in km: " + rangeInKm
+				+ ", price: " + price + " ]  |  " + pilot;
+	}
+	
+	protected void printModelAndMessage(String message) {
+		System.out.println(toString());
+		printGreen("\t" + message + "\n");
+	}
+	
+	public String getAsCSVLine() {
+		// TODO Auto-generated method stub
+		return getClass().getSimpleName() + ", " + model + ", " + maxMachSpeed + ", " + rangeInKm
+		+ ", " + price + ", " + pilot.getAsCSVLine();
 	}
 
-	public Pilot getPilot() {
-		return pilot;
-	}
-
-	public void setPilot(Pilot pilot) {
-		this.pilot = pilot;
-	}
 }

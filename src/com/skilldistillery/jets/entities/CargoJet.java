@@ -1,30 +1,24 @@
 package com.skilldistillery.jets.entities;
 
-public class CargoJet extends Jet implements CargoCarrier {
+import static com.skilldistillery.jets.app.Util.randomFromArray;
 
+public class CargoJet extends Jet implements CargoCarrier {
+	private final String[] loadCargoResponses = { "loading up!", "getting loaded!", "loading!" };
+	private final String[] flyingResponses = { "airborne and heading to destination!", "soaring through the skies!",
+			"taking off with cargo!", "flying high and fast!" };
 
 	public CargoJet(String model, double maxMachSpeed, int rangeInKm, long price) {
 		super(model, maxMachSpeed, rangeInKm, price);
-		// TODO Auto-generated constructor stub
 	}
-	public CargoJet(String model, double maxMachSpeed, int rangeInKm, long price, Pilot pilot) {
-		super(model, maxMachSpeed, rangeInKm, price, pilot);
-		// TODO Auto-generated constructor stub
-	}
+
 	@Override
 	public void loadCargo() {
-		// TODO Auto-generated method stub
-		
+		printModelAndMessage(getModel() + " " + randomFromArray(loadCargoResponses));
 	}
+
 	@Override
 	void fly() {
-		// TODO Auto-generated method stub
-		
+		printModelAndMessage("Cargo jet model " + getModel() + " " + randomFromArray(flyingResponses));
 	}
-	@Override
-	void displaySelf() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 }

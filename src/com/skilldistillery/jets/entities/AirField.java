@@ -1,8 +1,12 @@
 package com.skilldistillery.jets.entities;
+import static com.skilldistillery.jets.app.Util.printGreen;
+import static com.skilldistillery.jets.app.Util.printRed;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
 
 import com.skilldistillery.jets.app.JetComp;
 
@@ -13,59 +17,95 @@ public class AirField {
 		fleet = new ArrayList<Jet>();
 	}
 	
+	
+	public void removeJet(Jet jet) {
+		fleet.remove(jet);
+	}
+
+	
 	public AirField(Collection<Jet> jets) {
 		this();
 		fleet.addAll(jets);
+	}
+	
+	public List<Jet> getAllJets() {
+		return fleet;
+	}
+	
+	public void assignPilotToJet(int indexOfJet, Pilot pilot) {
+		fleet.get(indexOfJet).setPilot(pilot);;
+	}
+	
+	public boolean isEmpty() {
+		return fleet.isEmpty();
 	}
 
 	public void addJet(Jet jet) {
 		fleet.add(jet);
 	}
 	
-	public void removeJet(int index) {
-		fleet.remove(index);
+	public int getNumJets() {
+		return fleet.size();
 	}
-
-	public void displayAll() {
-		for (int i=0; i<fleet.size();i++) {
-			System.out.printf("jet #%d --- %s%n", i+1, fleet.get(i));
-		}
-	}
-
-	public void flyAll() {
-		for (Jet jet : fleet) {
+	
+	public void flyJet(Jet jet) {
+		if (jet != null) {
 			jet.fly();
 		}
 	}
 
+	public void displayAll() {
+		callOnAll((jet) -> {
+			System.out.println(jet);
+		});
+	}
+
+	public void flyAll() {
+		callOnAll(Jet::fly);
+	}
+
 	public void viewFastestJet() {
-		System.out.println(Collections.max(fleet, JetComp.speedComparator));
+		System.out.println("Fastest jet:");
+		printGreen("\t" + Collections.max(fleet, JetComp.speedComparator).getDisplayAsSelf());
 	}
 	
 	public void viewJetWithLongestRange() {
-		System.out.println(Collections.max(fleet, JetComp.rangeComparator));
+		System.out.println("Jet with longest range:");
+		printGreen("\t" + Collections.max(fleet, JetComp.rangeComparator).getDisplayAsSelf());
 	}
 	
 	public void loadAllCargoCarriers() {
-		for (Jet jet : fleet) {
-			if (jet instanceof CargoCarrier && jet != null) {
-				((CargoCarrier)jet).loadCargo();
-			}
-		}
+		callOnAllOfType(CargoJet::loadCargo, CargoJet.class);
 	}
 	
 	public void fightAllFighters() {
-		for (Jet jet : fleet) {
-			if (jet instanceof CombatReady && jet != null) {
-				((CombatReady)jet).fight();
-			}
-		}
+	    callOnAllOfType(FighterJet::fight, FighterJet.class);
 	}
+	
+	private <T extends Jet> void callOnAll(Consumer<Jet> method) {
+		callOnAllOfType(method, Jet.class);
+	}
+	
+	private <T extends Jet> void callOnAllOfType(Consumer<T> method, Class<T> type) {
+	    if (isEmpty()) {
+	        printRed("The airfield is empty!");
+	        return;
+	    }
 
-	// will need to find a way to collect all the jets at
-	// the bottom of the array list
-	// if the list looks like this
-	// [some, some, null, some, some]
-	// convert it to
-	// [some, some, some, some, null]
+	    for (Jet jet : fleet) {
+	        if (type.isInstance(jet)) {
+	            method.accept(type.cast(jet));
+	        }
+	    }
+	}
+	
+	public List<String> getStateAsCSV() {
+		List<String> representations = new ArrayList<>();
+		for (Jet jet : fleet) {
+			representations.add(jet.getAsCSVLine());
+		}
+		return representations;
+	}
+	
+
 }
