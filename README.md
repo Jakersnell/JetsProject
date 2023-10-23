@@ -9,3 +9,8 @@
 
 ## Lessons learned
 	I learned a lot during this project, but I will keep to the main points. First off I learned a lot about Java generics, Im used to using thes extensively in Rust but Java does these sorts of things different, I learned about the Function and Consumable interface, which if you have used rust may remind you of the Fn and FnOnce traits. Its neat to see these things in other languages, and since I dont have much experience outside of Rust and Python, Ive learned a lot using Java. I also learned a ton about organization of projects and workflow, I feel like I developed better tools for keeping track of a codebase, and grew my ability of foresight. I have a ton to learn, I realized that a lot in this project, Im excited for the future and the tools I will grow to learn.
+
+### Resources Used:
+* [Nio vs FileWriter](https://stackoverflow.com/questions/32143633/java-io-file-vs-java-nio-files-which-is-the-preferred-in-new-code)
+* [Java Generics in Methods](https://docs.oracle.com/javase/tutorial/extra/generics/methods.html)
+* [Java Consumer Interface](https://www.geeksforgeeks.org/java-8-consumer-interface-in-java-with-examples/)
