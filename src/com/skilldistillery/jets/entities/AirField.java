@@ -1,7 +1,7 @@
 package com.skilldistillery.jets.entities;
 
-import static com.skilldistillery.jets.app.Util.printGreen;
-import static com.skilldistillery.jets.app.Util.printRed;
+import static com.skilldistillery.jets.app.PrintColor.printGreen;
+import static com.skilldistillery.jets.app.PrintColor.printRed;
 
 import java.util.ArrayList;
 import java.util.Collection;

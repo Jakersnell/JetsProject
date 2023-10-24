@@ -1,8 +1,10 @@
 package com.skilldistillery.jets.entities;
-import static com.skilldistillery.jets.app.Util.randomFromArray;
-public class Pilot {
-	private final String[] firstNames = { "John", "Katie", "Shufey", "Joe", "Michael", "Linda", "Peter", "Alice", "Chris", "Eve" };
-	private final String[] lastNames = { "ValJean", "Pilotwoman", "loofen", "Pilotperson", "Skydriver", "Cloudsailor", "Airlifter", "Jetrunner", "Wingflyer", "Propelmaster" };
+
+public class Pilot extends Entity {
+	private final String[] firstNames = { "John", "Katie", "Shufey", "Joe", "Michael", "Linda", "Peter", "Alice",
+			"Chris", "Eve" };
+	private final String[] lastNames = { "ValJean", "Pilotwoman", "loofen", "Pilotperson", "Skydriver", "Cloudsailor",
+			"Airlifter", "Jetrunner", "Wingflyer", "Propelmaster" };
 
 	private String firstName;
 	private String lastName;
@@ -14,7 +16,7 @@ public class Pilot {
 		this.lastName = lastName;
 		this.age = age;
 	}
-	
+
 	public Pilot() {
 		firstName = randomFromArray(firstNames);
 		lastName = randomFromArray(lastNames);
@@ -49,7 +51,7 @@ public class Pilot {
 	public String toString() {
 		return "Pilot [ firstName: " + firstName + ", lastName: " + lastName + ", age: " + age + " ]";
 	}
-	
+
 	public String getAsCSVLine() {
 		return "pilot, " + firstName + ", " + lastName + ", " + age;
 	}

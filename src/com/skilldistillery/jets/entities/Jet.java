@@ -1,7 +1,7 @@
 package com.skilldistillery.jets.entities;
 import java.util.Objects;
-import static com.skilldistillery.jets.app.Util.printGreen;
-public abstract class Jet {
+import static com.skilldistillery.jets.app.PrintColor.printGreen;
+public abstract class Jet extends Entity {
 	private String model;
 	private double maxMachSpeed;
 	private int rangeInKm;

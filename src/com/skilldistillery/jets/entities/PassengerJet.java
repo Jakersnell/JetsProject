@@ -1,5 +1,4 @@
 package com.skilldistillery.jets.entities;
-import static com.skilldistillery.jets.app.Util.randomFromArray;
 
 public class PassengerJet extends Jet {
 	private int passengers = (int)(Math.random() * 50 + 10);

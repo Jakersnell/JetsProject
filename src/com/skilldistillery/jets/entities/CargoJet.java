@@ -1,7 +1,5 @@
 package com.skilldistillery.jets.entities;
 
-import static com.skilldistillery.jets.app.Util.randomFromArray;
-
 public class CargoJet extends Jet implements CargoCarrier {
 	private final String[] loadCargoResponses = { "loading up!", "getting loaded!", "loading!" };
 	private final String[] flyingResponses = { "airborne and heading to destination!", "soaring through the skies!",

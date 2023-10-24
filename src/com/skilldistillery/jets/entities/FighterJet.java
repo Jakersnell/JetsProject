@@ -1,5 +1,4 @@
 package com.skilldistillery.jets.entities;
-import static com.skilldistillery.jets.app.Util.randomFromArray;
 public class FighterJet extends Jet implements CombatReady {
 	private final String[] fighterJetGuns = {"20mm Cannon", "30mm Gatling Gun", "AIM-9 Sidewinder", "M61 Vulcan", "AIM-120 AMRAAM"};
 	private final String[] flyingResponses = {"breaking the sound barrier!", "engaging afterburners!", "performing a barrel roll!", "ascending to combat altitude!", "patrolling the skies!"};

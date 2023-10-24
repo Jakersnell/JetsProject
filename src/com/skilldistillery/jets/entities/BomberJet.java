@@ -1,6 +1,5 @@
 package com.skilldistillery.jets.entities;
 
-import static com.skilldistillery.jets.app.Util.randomFromArray;
 
 public class BomberJet extends Jet implements CombatReady {
 
