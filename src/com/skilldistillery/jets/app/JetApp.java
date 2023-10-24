@@ -9,6 +9,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Function;
@@ -24,10 +25,19 @@ public class JetApp {
 		ja.launch();
 
 	}
+	
 
 	protected JetApp() {
 		airField = new AirField();
 		input = new Scanner(System.in);
+	}
+	
+	protected void afterOutput() {
+		printBlue("press enter to continue.");
+		input.nextLine();
+		for(int i=0; i<1000; i++) {
+			System.out.println();
+		}
 	}
 
 	protected void launch() {
@@ -43,17 +53,28 @@ public class JetApp {
 				break;
 			}
 			if (safeToLoad = readJetCSV(userFile)) {
+				afterOutput();
 				userMenuLoop();
 			}
-		}
+		} 
 		printGreen("Exiting program.");
 	}
 
 	protected void displayUserMenu() {
-		String menu = "JetApp Options:\n" + "1. List fleet\n" + "2. Fly all jets\n" + "3. View fastest jet\n"
-				+ "4. View jet with longest range\n" + "5. Load all Cargo Jets\n" + "6. Dogfight!\n"
-				+ "7. Add a jet to Fleet\n" + "8. Remove a jet from Fleet\n" + "9. Fly a jet in Fleet\n"
-				+ "10. Hire a pilot for a Jet\n" + "11. Save current state\n" + "0. Quit\n";
+		String menu = 
+				"JetApp Options:\n" 
+				+ "1. List fleet\n" 
+				+ "2. Fly all jets\n" 
+				+ "3. View fastest jet\n"
+				+ "4. View jet with longest range\n" 
+				+ "5. Load all Cargo Jets\n" 
+				+ "6. Dogfight!\n"
+				+ "7. Add a jet to Fleet\n" 
+				+ "8. Remove a jet from Fleet\n" 
+				+ "9. Fly a jet in Fleet\n"
+				+ "10. Hire a pilot for a Jet\n" 
+				+ "11. Save current state\n" 
+				+ "0. Quit\n";
 		printBlue(menu);
 	}
 
@@ -105,10 +126,10 @@ public class JetApp {
 				default:
 					printRed("Invalid Selection");
 				}
-				printBlue("press enter to continue.");
-				input.nextLine();
+				afterOutput();
 			} catch (IllegalArgumentException e) {
 				printRed("Invalid input.");
+				afterOutput();
 			}
 		}
 
@@ -173,6 +194,7 @@ public class JetApp {
 				}
 			} catch (NumberFormatException e) {
 				printRed("Invalid entry, Please only enter an Integer selection.");
+				afterOutput();
 			}
 		}
 	}
@@ -194,6 +216,7 @@ public class JetApp {
 				return parser.apply(rawEntry);
 			} catch (NumberFormatException e) {
 				printRed("Invalid entry");
+				afterOutput();
 			}
 		}
 	}
@@ -236,8 +259,10 @@ public class JetApp {
 			printRed("file " + filename + " not found.");
 		} catch (IOException e) {
 			printRed("A fatal IO error has occurred: " + e.getMessage());
+			afterOutput();
 		} catch (IllegalArgumentException e) {
 			printRed("Error in parsing '" + filename + "', is the data correct?\n" + e.getMessage());
+			afterOutput();
 		}
 		return false;
 	}
@@ -250,6 +275,7 @@ public class JetApp {
 				return;
 			} else if (Files.exists(Paths.get(filename))) {
 				printRed("You cannot save to " + filename + " this file already exists.");
+				afterOutput();
 			} else {
 				break;
 			}
@@ -260,6 +286,7 @@ public class JetApp {
 			Files.write(Paths.get(filename), lines); // Write to the file
 		} catch (IOException e) {
 			printRed("A fatal error occured.");
+			afterOutput();
 		}
 
 	}
